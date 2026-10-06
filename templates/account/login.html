@@ -1,0 +1,30 @@
+{% extends 'board/base.html' %}
+
+{% block title %}Вход на сайт{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 my-5">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white text-center">
+                <h1 class="h5 mb-0">Авторизация</h1>
+            </div>
+            <div class="card-body p-4 text-start"> <!-- Сбросим text-center на обычный левый край для полей -->
+                <form method="post" action="{% url 'account_login' %}">
+                    {% csrf_token %}
+
+                    <!-- allauth выведет поля Email/Username и Password сам -->
+                    {{ form.as_p }}
+
+                    <button type="submit" class="btn btn-primary w-100 mt-3">Войти</button>
+                </form>
+
+                <div class="text-center mt-3 small">
+                    Еще не зарегистрированы? <a href="{% url 'account_signup' %}" class="text-decoration-none">Создать аккаунт</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

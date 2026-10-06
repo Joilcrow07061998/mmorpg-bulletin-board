@@ -1,0 +1,35 @@
+{% extends 'board/base.html' %}
+
+{% block title %}Подтверждение e-mail{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 my-5">
+        <div class="card border-primary shadow-sm">
+            <div class="card-header bg-primary text-white text-center">
+                <h1 class="h5 mb-0">Верификация аккаунта</h1>
+            </div>
+            <div class="card-body p-4 text-center">
+                <p class="mb-4">
+                    Мы отправили письмо с одноразовым кодом подтверждения на вашу почту. 
+                    Пожалуйста, введите его ниже для активации учетной записи.
+                </p>
+
+                {% if error %}
+                    <div class="alert alert-danger small text-start">
+                        {{ error }}
+                    </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-4 mx-auto" style="max-width: 200px;">
+                        <input type="text" name="code" class="form-control text-center fs-4 fw-bold tracking-widest" placeholder="000000" maxlength="6" required autocomplete="off">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Активировать аккаунт</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

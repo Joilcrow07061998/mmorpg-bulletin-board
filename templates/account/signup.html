@@ -1,0 +1,35 @@
+{% extends 'board/base.html' %}
+
+{% block title %}Регистрация нового пользователя{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 my-5">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white text-center">
+                <h1 class="h5 mb-0">Регистрация аккаунта</h1>
+            </div>
+            <div class="card-body p-4 text-start">
+                <form method="post" action="{% url 'account_signup' %}">
+                    {% csrf_token %}
+
+                    {% if form.errors %}
+                        <div class="alert alert-danger small">
+                            Пожалуйста, исправьте ошибки в полях формы.
+                        </div>
+                    {% endif %}
+
+                    <!-- allauth автоматически выведет нужные поля на русском -->
+                    {{ form.as_p }}
+
+                    <button type="submit" class="btn btn-success w-100 mt-3">Зарегистрироваться</button>
+                </form>
+
+                <div class="text-center mt-3 small">
+                    Уже есть аккаунт? <a href="{% url 'account_login' %}" class="text-decoration-none">Войти</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

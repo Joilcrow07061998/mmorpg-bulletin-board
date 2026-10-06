@@ -1,0 +1,45 @@
+{% extends 'board/base.html' %}
+
+{% block title %}{% if object %}Edit Advertisement{% else %}New Advertisement{% endif %}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h1 class="h5 mb-0">{% if object %}Edit Advertisement{% else %}Create New Advertisement{% endif %}</h1>
+            </div>
+            <div class="card-body">
+                <!-- Важно: enctype для загрузки картинок CKEditor -->
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold">Headline</label>
+                        {{ form.headline }}
+                        {% if form.headline.errors %}<div class="text-danger small">{{ form.headline.errors }}</div>{% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold">Category</label>
+                        {{ form.category }}
+                        {% if form.category.errors %}<div class="text-danger small">{{ form.category.errors }}</div>{% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold">Content</label>
+                        <!-- Рендерится виджет CKEditor 5 -->
+                        {{ form.body }}
+                        {% if form.body.errors %}<div class="text-danger small">{{ form.body.errors }}</div>{% endif %}
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-success px-4">Save</button>
+                        <a href="{% url 'board:post_list' %}" class="btn btn-outline-secondary ms-2">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

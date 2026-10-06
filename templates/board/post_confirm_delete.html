@@ -1,0 +1,24 @@
+{% extends 'board/base.html' %}
+
+{% block title %}Delete Advertisement{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger shadow-sm my-5">
+            <div class="card-body text-center">
+                <h1 class="h4 text-danger mb-4">Are you sure?</h1>
+                <p>You are about to delete your advertisement:</p>
+                <p class="fw-bold fs-5">"{{ object.headline }}"</p>
+                <p class="text-muted small">This action cannot be undone.</p>
+                
+                <form method="post" class="mt-4">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger px-4">Yes, Delete</button>
+                    <a href="{% url 'board:post_detail' object.pk %}" class="btn btn-outline-secondary ms-2">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

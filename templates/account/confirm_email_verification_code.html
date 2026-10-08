@@ -20,7 +20,7 @@
                     </div>
                 {% endif %}
 
-                <form method="post" action="{{ action_url }}">
+                <form method="post" action="{% url 'account_confirm_email_verification_code' %}">
                     {% csrf_token %}
                     {% for field in form %}
                         <div class="mb-3">

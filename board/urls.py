@@ -16,6 +16,6 @@ urlpatterns = [
     path('responses/', views.ResponseList.as_view(), name='user_responses'),
     path('response/<int:pk>/', accept_response, name='accept_response'),
     path('response/<int:pk>/delete/', delete_response, name='delete_response'),
-
+    path('account/verify/', views.VerifyCodeView.as_view(), name='verify_code'),
 
 ]

@@ -1,0 +1,49 @@
+{% extends 'board/base.html' %}
+
+{% block title %}Подтверждение e-mail{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 my-5">
+        <div class="card border-primary shadow-sm">
+            <div class="card-header bg-primary text-white text-center">
+                <h1 class="h5 mb-0">Ввод кода подтверждения</h1>
+            </div>
+            <div class="card-body p-4 text-center">
+                <p class="mb-4 text-muted">
+                    Мы отправили одноразовый цифровой код на почту <strong class="text-dark">{{ email }}</strong>.
+                    Пожалуйста, введите его ниже для активации вашего аккаунта.
+                </p>
+
+                {% if form.errors %}
+                    <div class="alert alert-danger small text-start">
+                        Неверный код или истекло время его действия. Попробуйте еще раз.
+                    </div>
+                {% endif %}
+
+                <form method="post" action="{{ action_url }}">
+                    {% csrf_token %}
+
+                    <div class="mb-4 mx-auto text-start" style="max-width: 300px;">
+                        <!-- Рендерим поле ввода красиво с помощью Bootstrap -->
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Код верификации:</label>
+                                <input type="text" name="{{ field.name }}" class="form-control text-center fs-4 fw-bold" placeholder="Введите код" autocomplete="off" required>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Подтвердить код</button>
+                    </div>
+                </form>
+
+                <div class="mt-3 small">
+                    <a href="{% url 'board:post_list' %}" class="text-decoration-none text-muted">Вернуться на главную</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

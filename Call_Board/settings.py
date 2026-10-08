@@ -84,7 +84,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
@@ -127,11 +127,10 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
 # Почта: по умолчанию письма выводятся в консоль во время разработки.
 # Для реальной отправки значения можно задать через .env.
-#EMAIL_BACKEND = os.getenv(
-#    'EMAIL_BACKEND',
-#    'django.core.mail.backends.console.EmailBackend'
-#)
-#
+EMAIL_BACKEND = os.getenv(
+    'EMAIL_BACKEND',
+    'django.core.mail.backends.console.EmailBackend'
+)
 
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = int(os.getenv('EMAIL_PORT', 465))
@@ -139,7 +138,7 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL', 'True') == 'True'
 
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'webmaster@localhost')
 
 CACHES = {
     'default': {
@@ -148,4 +147,3 @@ CACHES = {
     }
 }
 
-ACCOUNT_ADAPTER = 'board.views.CustomAccountAdapter'

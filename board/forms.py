@@ -33,12 +33,3 @@ class ResponseForm(forms.ModelForm):
         model = Response
         fields = ['body']
 
-
-class VerificationForm(forms.Form):
-    code = forms.CharField(
-        max_length=6,
-        min_length=6,
-        widget=forms.TextInput(attrs={'class': 'form-control text-center fs-4 fw-bold', 'placeholder': 000000}),
-
-    )
-

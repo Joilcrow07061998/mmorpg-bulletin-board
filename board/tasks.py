@@ -1,6 +1,7 @@
 import datetime
 
 from django.conf import settings
+from django_apscheduler import util
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.urls import reverse
@@ -9,6 +10,7 @@ from django.utils import timezone
 from .models import Post
 
 
+@util.close_old_connections
 def send_weekly_newsletter():
     one_week_ago = timezone.now() - datetime.timedelta(days=7)
     posts = Post.objects.filter(created_at__gte=one_week_ago)

@@ -1,7 +1,7 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from django_apscheduler.jobstores import DjangoJobStore, register_events
+from django_apscheduler.jobstores import DjangoJobStore
 
 from board.tasks import send_weekly_newsletter
 
@@ -21,8 +21,6 @@ class Command(BaseCommand):
             max_instances=1,
             coalesce=True,
         )
-        register_events(scheduler)
-
         try:
             scheduler.start()
         except KeyboardInterrupt:

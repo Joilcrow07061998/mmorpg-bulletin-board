@@ -1,4 +1,5 @@
 {% extends 'board/base.html' %}
+{% load board_tags %}
 
 {% block title %}Доска объявлений{% endblock %}
 
@@ -36,7 +37,7 @@
 
                     <!-- Текст анонса: truncatechars_html обрезает текст до 250 знаков, сохраняя картинки и теги -->
                     <div class="card-text text-dark my-3">
-                        {{ post.body|truncatechars_html:250|safe }}
+                        {{ post.body|sanitize_html|truncatechars_html:250 }}
                     </div>
 
                     <div class="text-end">

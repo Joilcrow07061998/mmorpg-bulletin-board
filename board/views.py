@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect
@@ -41,7 +41,7 @@ class PostDetail(LoginRequiredMixin, DetailView):
         return context
 
 
-class PostCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class PostCreate(LoginRequiredMixin, CreateView):
     permission_required = 'board.add_post'
     model = Post
     form_class = PostForm
@@ -53,7 +53,7 @@ class PostCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class PostUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class PostUpdate(LoginRequiredMixin, UpdateView):
     permission_required = 'board.change_post'
     model = Post
     form_class = PostForm
@@ -64,7 +64,7 @@ class PostUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         return Post.objects.filter(author=self.request.user)
 
 
-class PostDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class PostDelete(LoginRequiredMixin, DeleteView):
     permission_required = 'board.delete_post'
     model = Post
     success_url = reverse_lazy('board:post_list')
@@ -101,15 +101,17 @@ class ResponseCreate(LoginRequiredMixin, CreateView):
         if post_author_email:
             send_mail(
                 subject='Новый отклик на ваше объявление',
-                message=(
-                    f'Пользователь {self.request.user.email} оставил отклик '
-                    f'на ваше объявление «{response.post.headline}».\\n\\n'
-                    f'Текст отклика:\\n{response.body}'
-                ),
+                message=f"""Привет!
+
+        Пользователь {self.request.user.username} оставил отклик на ваше объявление «{response.post.headline}».
+
+        Текст отклика:
+        {response.body}""",
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[post_author_email],
                 fail_silently=False,
             )
+
 
         return redirect('board:post_detail', pk=self.kwargs['pk'])
 

@@ -1,17 +1,17 @@
 {% extends 'board/base.html' %}
 
-{% block title %}All Advertisements{% endblock %}
+{% block title %}Доска объявлений{% endblock %}
 
 {% block content %}
 <div class="row mb-4 align-items-center">
     <div class="col-md-6">
-        <h1 class="h3 text-dark">Guild Board</h1>
+        <h1 class="h3 text-dark mb-0">Главная лента</h1>
     </div>
-    <!-- Search form -->
+    <!-- Форма поиска -->
     <div class="col-md-6">
         <form method="get" class="d-flex">
-            <input class="form-control me-2" type="search" name="q" placeholder="Search by title or text..." value="{{ request.GET.q|default:'' }}">
-            <button class="btn btn-outline-primary" type="submit">Search</button>
+            <input class="form-control me-2" type="search" name="q" placeholder="Поиск по названию или содержимому..." value="{{ request.GET.q|default:'' }}">
+            <button class="btn btn-outline-primary" type="submit">Поиск</button>
         </form>
     </div>
 </div>
@@ -21,45 +21,53 @@
         <div class="col-md-12 mb-3">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <h2 class="h5 card-title">
-                            <a href="{% url 'board:post_detail' post.pk %}" class="text-decoration-none text-primary">{{ post.headline }}</a>
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h2 class="h5 card-title mb-0">
+                            <a href="{% url 'board:post_detail' post.pk %}" class="text-decoration-none text-primary fw-bold">{{ post.headline }}</a>
                         </h2>
-                        <span class="badge bg-secondary">{{ post.category.name }}</span>
+                        <span class="badge bg-secondary px-3 py-2">{{ post.category.name }}</span>
                     </div>
+
                     <p class="card-text text-muted small mb-2">
-                        Author: <strong>{{ post.author.username }}</strong> | Published: {{ post.created_at|date:"d.m.Y H:i" }}
+                        Автор: <strong class="text-dark">{{ post.author.username }}</strong> | Опубликовано: {{ post.created_at|date:"d.m.Y H:i" }}
                     </p>
-                    <hr class="my-2">
-                    <!-- Обрезаем HTML контент для превью -->
-                    <div class="card-text text-truncate-custom" style="max-height: 50px; overflow: hidden;">
-                        {{ post.body|safe }}
+
+                    <hr class="my-2 text-secondary opacity-25">
+
+                    <!-- Текст анонса: truncatechars_html обрезает текст до 250 знаков, сохраняя картинки и теги -->
+                    <div class="card-text text-dark my-3">
+                        {{ post.body|truncatechars_html:250|safe }}
                     </div>
-                    <div class="mt-2 text-end">
-                        <a href="{% url 'board:post_detail' post.pk %}" class="btn btn-sm btn-link">Read full post →</a>
+
+                    <div class="text-end">
+                        <a href="{% url 'board:post_detail' post.pk %}" class="btn btn-sm btn-link text-decoration-none p-0">Прочитать полностью →</a>
                     </div>
                 </div>
             </div>
         </div>
     {% empty %}
         <div class="col-12 text-center my-5">
-            <p class="text-muted fs-5">No posts found.</p>
+            <p class="text-muted fs-5">Посты не найдены :(</p>
         </div>
     {% endfor %}
 </div>
 
-<!-- Pagination Bootstrap -->
+<!-- Пагинация Bootstrap -->
 {% if is_paginated and page_obj.has_other_pages %}
 <nav class="my-4">
     <ul class="pagination justify-content-center">
         {% if page_obj.has_previous %}
-            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Previous</a></li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Назад</a>
+            </li>
         {% endif %}
-        
+
         <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
-        
+
         {% if page_obj.has_next %}
-            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a></li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Вперед</a>
+            </li>
         {% endif %}
     </ul>
 </nav>

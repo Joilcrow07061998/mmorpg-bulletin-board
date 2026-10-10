@@ -14,7 +14,7 @@
                 
                 <form method="post" class="mt-4">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-danger px-4">Yes, Delete</button>
+                    <button type="submit" class="btn btn-danger px-4">Да, Удалить</button>
                     <a href="{% url 'board:post_detail' object.pk %}" class="btn btn-outline-secondary ms-2">Cancel</a>
                 </form>
             </div>

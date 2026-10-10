@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333333; background-color: #f8f9fa; padding: 20px;">
+    <div style="max-width: 600px; margin: 0 auto; background: #ffffff; padding: 20px; border-radius: 5px; border: 1px solid #eeeeee;">
+        <h2 style="color: #0d6efd; border-bottom: 2px solid #0d6efd; padding-bottom: 10px;">🎮 Еженедельный дайджест гильдии</h2>
+        <p>Привет, <strong>{{ subscriber.username }}</strong>!</p>
+        <p>За прошедшую неделю на нашей доске объявлений появились новые публикации, которые могут тебя заинтересовать:</p>
+        <hr style="border: 0; border-top: 1px solid #eeeeee; margin: 20px 0;">
+
+        {% for post in posts %}
+            <div style="margin-bottom: 20px; padding: 10px; border-left: 4px solid #6c757d; background: #fdfdfd;">
+                <h4 style="margin: 0 0 5px 0;">
+                    <a href="http://127.0.0{{ post.pk }}/" style="color: #0d6efd; text-decoration: none;">[{{ post.category.name }}] {{ post.headline }}</a>
+                </h4>
+                <p style="margin: 0; font-size: 12px; color: #6c757d;">Автор: {{ post.author.username }}</p>
+            </div>
+        {% endfor %}
+
+        <hr style="border: 0; border-top: 1px solid #eeeeee; margin: 20px 0;">
+        <p style="font-size: 12px; color: #6c757d; text-align: center;">
+            Вы получили это письмо, так как зарегистрированы на сайте MMORPG Board.<br>
+            Удачной охоты и до встречи в рейдах!
+        </p>
+    </div>
+</body>
+</html>

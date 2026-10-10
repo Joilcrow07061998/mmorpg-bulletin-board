@@ -23,8 +23,8 @@
         <!-- Кнопки управления для автора поста -->
         {% if post.author == request.user %}
             <div class="mt-4 border-top pt-3">
-                <a href="{% url 'board:post_update' post.pk %}" class="btn btn-warning btn-sm me-2">Edit Post</a>
-                <a href="{% url 'board:post_delete' post.pk %}" class="btn btn-danger btn-sm">Delete Post</a>
+                <a href="{% url 'board:post_update' post.pk %}" class="btn btn-warning btn-sm me-2">Изменить</a>
+                <a href="{% url 'board:post_delete' post.pk %}" class="btn btn-danger btn-sm">Удалить</a>
             </div>
         {% endif %}
     </div>
@@ -33,7 +33,7 @@
 <!-- Блок откликов (ТЗ: Оставить отклик могут все, кроме автора объявления) -->
 <div class="card shadow-sm mb-5">
     <div class="card-header bg-dark text-white">
-        <h3 class="h6 mb-0">Leave a Response</h3>
+        <h3 class="h6 mb-0">Оставить отклик</h3>
     </div>
     <div class="card-body">
         {% if user.is_authenticated %}
@@ -44,13 +44,13 @@
                         <!-- Выводим вашу ResponseForm -->
                         {{ form.body }}
                     </div>
-                    <button type="submit" class="btn btn-primary btn-sm">Send Response</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Отправить</button>
                 </form>
             {% else %}
-                <p class="text-muted mb-0 small">You cannot leave responses to your own advertisement.</p>
+                <p class="text-muted mb-0 small">Вы не можете оставить отклик на свой пост</p>
             {% endif %}
         {% else %}
-            <p class="text-muted mb-0 small">Please <a href="{% url 'account_login' %}">login</a> to leave a response.</p>
+            <p class="text-muted mb-0 small">Пожалуйста <a href="{% url 'account_login' %}">login</a> оставьте Ваш отклик</p>
         {% endif %}
     </div>
 </div>

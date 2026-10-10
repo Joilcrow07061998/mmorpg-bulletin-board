@@ -17,37 +17,37 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'board:post_list' %}">All Posts</a>
+                        <a class="nav-link" href="{% url 'board:post_list' %}">Все посты</a>
                     </li>
                 </ul>
 
                 <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link text-info" href="{% url 'board:user_responses' %}">📩 My Responses</a>
+                            <a class="nav-link text-info" href="{% url 'board:user_responses' %}">📩 Мои отклики</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link btn btn-sm btn-outline-success text-white px-3 mx-2" href="{% url 'board:post_create' %}">+ Create Post</a>
+                            <a class="nav-link btn btn-sm btn-outline-success text-white px-3 mx-2" href="{% url 'board:post_create' %}">+ Создать пост</a>
                         </li>
                         <li class="nav-item">
                             <span class="navbar-text me-3 text-secondary">
-                                Hello, <strong>{{ user.email }}</strong>
+                                Привет, <strong>{{ user.get_username }}</strong>
                             </span>
                         </li>
                         <li class="nav-item">
                             <form method="post" action="{% url 'account_logout' %}" class="d-inline">
                                 {% csrf_token %}
                                 <button type="submit" class="nav-link btn btn-sm btn-outline-danger text-white px-2">
-                                    Logout
+                                    Выйти
                                 </button>
                             </form>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'account_login' %}">Login</a>
+                            <a class="nav-link" href="{% url 'account_login' %}">Войти</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link btn btn-sm btn-primary text-white px-3 ms-2" href="{% url 'account_signup' %}">Sign Up</a>
+                            <a class="nav-link btn btn-sm btn-primary text-white px-3 ms-2" href="{% url 'account_signup' %}">Зарегистрироваться</a>
                         </li>
                     {% endif %}
                 </ul>

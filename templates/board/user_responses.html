@@ -3,17 +3,17 @@
 {% block title %}My Responses Cabinet{% endblock %}
 
 {% block content %}
-<h1 class="h3 mb-4">Cabinet: Responses to your Ads</h1>
+<h1 class="h3 mb-4">Личный Кабинет: Здесь вы можете управлять откликами</h1>
 
 <div class="card shadow-sm mb-4 bg-white">
     <div class="card-body">
         <form method="get" class="row align-items-end g-3">
             <div class="col-md-8">
-                <label class="form-label small text-muted fw-bold">Filter by Advertisement:</label>
+                <label class="form-label small text-muted fw-bold">Выберите:</label>
                 {{ filter.form.post }}
             </div>
             <div class="col-md-4">
-                <button type="submit" class="btn btn-primary w-100">Apply Filter</button>
+                <button type="submit" class="btn btn-primary w-100">Применить Фильтр</button>
             </div>
         </form>
     </div>
@@ -24,11 +24,11 @@
         <table class="table table-hover align-middle mb-0">
             <thead class="table-dark">
                 <tr>
-                    <th style="width: 20%">Your Post</th>
-                    <th style="width: 15%">Sender</th>
-                    <th style="width: 40%">Response Text</th>
-                    <th style="width: 10%">Status</th>
-                    <th style="width: 15%" class="text-end">Actions</th>
+                    <th style="width: 20%">Ваш Пост</th>
+                    <th style="width: 15%">Отправитель</th>
+                    <th style="width: 40%">Текст Отклика</th>
+                    <th style="width: 10%">Статус</th>
+                    <th style="width: 15%" class="text-end">Действия</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,9 +43,9 @@
                         <td><div class="text-wrap" style="max-width: 400px;">{{ response.body }}</div></td>
                         <td>
                             {% if response.is_accepted %}
-                                <span class="badge bg-success">Accepted</span>
+                                <span class="badge bg-success">Принят</span>
                             {% else %}
-                                <span class="badge bg-warning text-dark">Pending</span>
+                                <span class="badge bg-warning text-dark">В обработке</span>
                             {% endif %}
                         </td>
                         <td class="text-end">
@@ -53,14 +53,14 @@
                                 {% if not response.is_accepted %}
                                     <form method="post" action="{% url 'board:accept_response' response.pk %}" class="d-inline">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-success" title="Accept response">Accept</button>
+                                        <button type="submit" class="btn btn-success" title="Accept response">Принять</button>
                                     </form>
                                 {% endif %}
 
                                 <form method="post" action="{% url 'board:delete_response' response.pk %}" class="d-inline">
                                     {% csrf_token %}
                                     <button type="submit" class="btn btn-danger" title="Delete response" onclick="return confirm('Delete this response?');">
-                                        Delete
+                                        Удалить
                                     </button>
                                 </form>
                             </div>

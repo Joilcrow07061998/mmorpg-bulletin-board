@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.yandex',
+    'django_apscheduler',
 ]
 
 MIDDLEWARE = [
@@ -100,6 +101,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# дает возможность прикреплять файлы авторизованным пользователям(иначе только права админа)
+CKEDITOR_5_FILE_UPLOAD_PERMISSION = "authenticated"
 
 CKEDITOR_5_CONFIGS = {
     'default': {
@@ -113,24 +116,22 @@ CKEDITOR_5_CONFIGS = {
 
 CKEDITOR_5_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
-# django-allauth: регистрация и вход только по e-mail.
-ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
-ACCOUNT_LOGIN_METHODS = {'email'}
+# Вместо ACCOUNT_SIGNUP_FIELDS и ACCOUNT_LOGIN_METHODS пишем:
+ACCOUNT_AUTHENTICATION_METHOD = (
+    "username_email"  # Позволяет входить и по логину, и по email
+)
+ACCOUNT_USERNAME_REQUIRED = True  # Делает поле логина ОБЯЗАТЕЛЬНЫМ при регистрации
+ACCOUNT_EMAIL_REQUIRED = True  # Делает поле email ОБЯЗАТЕЛЬНЫМ при регистрации
 
-
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+# Остальные ваши настройки оставляем без изменений:
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
 ACCOUNT_EMAIL_VERIFICATION_SUPPORTS_RESEND = True
-
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
-ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 
-# Почта: по умолчанию письма выводятся в консоль во время разработки.
-# Для реальной отправки значения можно задать через .env.
-EMAIL_BACKEND = os.getenv(
-    'EMAIL_BACKEND',
-    'django.core.mail.backends.console.EmailBackend'
-)
+
+
 
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = int(os.getenv('EMAIL_PORT', 465))
@@ -147,3 +148,8 @@ CACHES = {
     }
 }
 
+# формат даты, которую будет воспринимать наш задачник (вспоминаем модуль по фильтрам)
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+
+# если задача не выполняется за 25 секунд, то она автоматически снимается, можете поставить время побольше, но как правило, это сильно бьёт по производительности сервера
+APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds

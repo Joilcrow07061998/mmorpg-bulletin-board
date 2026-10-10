@@ -1,13 +1,16 @@
 {% extends 'board/base.html' %}
 
-{% block title %}{% if object %}Edit Advertisement{% else %}New Advertisement{% endif %}{% endblock %}
+{% block title %}{% if object %}Редактировать объявление{% else %}Новое объявление{% endif %}{% endblock %}
 
 {% block content %}
+<!-- ОБЯЗАТЕЛЬНО: Подключает JS и CSS скрипты визуального редактора -->
+{{ form.media }}
+
 <div class="row justify-content-center">
     <div class="col-md-10">
         <div class="card shadow-sm">
             <div class="card-header bg-dark text-white">
-                <h1 class="h5 mb-0">{% if object %}Edit Advertisement{% else %}Create New Advertisement{% endif %}</h1>
+                <h1 class="h5 mb-0">{% if object %}Редактировать объявление{% else %}Создать новый пост{% endif %}</h1>
             </div>
             <div class="card-body">
                 <!-- Важно: enctype для загрузки картинок CKEditor -->
@@ -15,27 +18,27 @@
                     {% csrf_token %}
                     
                     <div class="mb-3">
-                        <label class="form-label font-weight-bold">Headline</label>
+                        <label class="form-label font-weight-bold">Заголовок</label>
                         {{ form.headline }}
                         {% if form.headline.errors %}<div class="text-danger small">{{ form.headline.errors }}</div>{% endif %}
                     </div>
                     
                     <div class="mb-3">
-                        <label class="form-label font-weight-bold">Category</label>
+                        <label class="form-label font-weight-bold">Категория</label>
                         {{ form.category }}
                         {% if form.category.errors %}<div class="text-danger small">{{ form.category.errors }}</div>{% endif %}
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label font-weight-bold">Content</label>
+                        <label class="form-label font-weight-bold">Описание</label>
                         <!-- Рендерится виджет CKEditor 5 -->
                         {{ form.body }}
                         {% if form.body.errors %}<div class="text-danger small">{{ form.body.errors }}</div>{% endif %}
                     </div>
 
                     <div class="mt-4">
-                        <button type="submit" class="btn btn-success px-4">Save</button>
-                        <a href="{% url 'board:post_list' %}" class="btn btn-outline-secondary ms-2">Cancel</a>
+                        <button type="submit" class="btn btn-success px-4">Сохранить</button>
+                        <a href="{% url 'board:post_list' %}" class="btn btn-outline-secondary ms-2">Отмена</a>
                     </div>
                 </form>
             </div>

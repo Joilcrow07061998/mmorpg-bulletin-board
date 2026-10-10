@@ -1,31 +1,24 @@
 import datetime
-from django.utils import timezone
-from django.core.mail import send_mail
+
 from django.conf import settings
 from django.contrib.auth.models import User
-from apscheduler.schedulers.background import BackgroundScheduler
-from django_apscheduler.jobstores import DjangoJobStore, register_job
+from django.core.mail import send_mail
+from django.urls import reverse
+from django.utils import timezone
 
 from .models import Post
 
 
-scheduler = BackgroundScheduler()
-scheduler.add_jobstore(DjangoJobStore(), "default")
-
-
-
-@register_job(scheduler, "interval", weeks=1, id="weekly_newsletter", replace_existing=True, max_instances=3, coalesce=True)
 def send_weekly_newsletter():
-    #print("=== ПЛАНИРОВЩИК ЗАПУСТИЛСЯ, ПРОВЕРЯЮ ПОСТЫ ===")
     one_week_ago = timezone.now() - datetime.timedelta(days=7)
     posts = Post.objects.filter(created_at__gte=one_week_ago)
 
     if not posts.exists():
-        #print("Постов за неделю не найдено, выхожу из функции.")
         return
 
-    subscribers_emails = list(User.objects.filter(is_active=True).values_list('email', flat=True))
-
+    subscribers_emails = list(
+        User.objects.filter(is_active=True).values_list('email', flat=True)
+    )
     subscribers_emails = [email for email in subscribers_emails if email]
 
     if not subscribers_emails:
@@ -33,8 +26,9 @@ def send_weekly_newsletter():
 
     posts_summary = ""
     for post in posts:
+        post_url = f"{settings.SITE_URL}{reverse('board:post_detail', kwargs={'pk': post.pk})}"
         posts_summary += f"• [{post.category.name}] {post.headline}\n"
-        posts_summary += f"  Читать полностью: http://127.0.0{post.pk}/\n\n"
+        posts_summary += f"  Читать полностью: {post_url}\n\n"
 
     message_text = f"""Привет, Игрок!
 
@@ -51,6 +45,3 @@ def send_weekly_newsletter():
         recipient_list=subscribers_emails,
         fail_silently=False,
     )
-
-
-scheduler.start()

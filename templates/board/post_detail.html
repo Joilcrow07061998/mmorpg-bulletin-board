@@ -1,4 +1,5 @@
 {% extends 'board/base.html' %}
+{% load board_tags %}
 
 {% block title %}{{ post.headline }}{% endblock %}
 
@@ -17,7 +18,7 @@
 
         <!-- Вывод контента CKEditor 5 со всеми картинками и видео -->
         <div class="post-body-content my-4">
-            {{ post.body|safe }}
+            {{ post.body|sanitize_html }}
         </div>
 
         <!-- Кнопки управления для автора поста -->

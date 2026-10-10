@@ -96,6 +96,7 @@ LOGIN_URL = '/account/login/'
 # сейчас после регистрации allauth сразу отправит юзера вводить код
 LOGIN_REDIRECT_URL = '/'
 SITE_ID = 1
+SITE_URL = os.getenv('SITE_URL', 'http://127.0.0.1:8000').rstrip('/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

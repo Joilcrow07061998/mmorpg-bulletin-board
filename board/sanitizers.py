@@ -40,7 +40,11 @@ def _filter_attribute(tag, attribute, value):
     if tag != "iframe" or attribute != "src":
         return value
 
-    parsed = urlsplit(value)
+    try:
+        parsed = urlsplit(value)
+    except ValueError:
+        return None
+
     if parsed.scheme != "https" or parsed.hostname is None:
         return None
 
